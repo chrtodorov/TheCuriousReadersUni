@@ -1,0 +1,6 @@
+C:\Users\ctodorov\source\repos\TheCuriousReaders\obj\Debug\net6.0\TheCuriousReaders.csproj.AssemblyReference.cache
+C:\Users\ctodorov\source\repos\TheCuriousReaders\obj\Debug\net6.0\TheCuriousReaders.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\ctodorov\source\repos\TheCuriousReaders\obj\Debug\net6.0\TheCuriousReaders.AssemblyInfoInputs.cache
+C:\Users\ctodorov\source\repos\TheCuriousReaders\obj\Debug\net6.0\TheCuriousReaders.AssemblyInfo.cs
+C:\Users\ctodorov\source\repos\TheCuriousReaders\obj\Debug\net6.0\TheCuriousReaders.csproj.CoreCompileInputs.cache
+C:\Users\ctodorov\source\repos\TheCuriousReaders\obj\Debug\net6.0\TheCuriousReaders.MvcApplicationPartsAssemblyInfo.cache
