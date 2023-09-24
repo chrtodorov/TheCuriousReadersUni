@@ -1,0 +1,31 @@
+<app-book-header (filtersChanged)="onFiltersChanged($event)">
+
+</app-book-header>
+
+<section *ngIf="books.length > 0">
+    <div class="row">
+        <div class="col-xs-4 card p-2 mx-2 my-2" style="width: 15rem;" *ngFor="let book of books | paginate:{ 
+            itemsPerPage: booksPerPage, 
+            currentPage: page,
+            totalItems: totalItems
+          };">
+            <a href="#" [routerLink]="['/book/', book.bookId, 'details']">
+                <img class="card-img-top" [src]="book.coverUrl" [alt]="book.title">
+            </a>
+            <div class="card-body">
+                <h5 class="card-title">{{book.title}}
+                    <i class="bi bi-info-circle-fill" ngbPopover="{{ (book.description.length>221)? 
+                        (book.description | slice:0:221)+'..':(book.description) }}" 
+          popoverTitle="Summary" triggers="mouseenter:mouseleave:click" popoverClass="design"></i>
+                </h5>
+                <p class="card-text fw-bold">{{book.genre}}</p>
+            </div>
+        </div>
+    </div>
+    
+    <pagination-controls (pageChange)="onPageChange($event)"></pagination-controls>
+</section>
+
+<section *ngIf="books.length == 0">
+    <h3 class="text-center">No books</h3>
+</section>

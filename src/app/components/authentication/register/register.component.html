@@ -1,0 +1,261 @@
+<router-outlet></router-outlet>
+
+    <div class="container py-5">
+        <div class="row">
+            <div class="col-md-10 mx-auto">
+                <form *ngIf="role !== 'administrator'" [formGroup]="registerForm" (ngSubmit)="register()">
+                    <h1>Registration Page</h1>
+                    <div class="form-group row">
+                        <div class="col-sm-6">
+                            <label for="firstName">First Name</label>
+                            <input formControlName="firstName" type="text" class="form-control" id="firstName" placeholder="Please enter a first name">
+                            <div *ngIf="f.firstName.errors && (f.firstName.dirty || f.firstName.touched)" class="alert alert-danger">
+                                <div *ngIf="f.firstName.errors.required">First Name is required.</div>
+                                <div *ngIf="f.firstName.errors.minlength">First Name must be atleast 2 letters</div>
+                                <div *ngIf="f.firstName.errors.maxlength">First Name must not be longer than 128 letters</div>
+                                <div *ngIf="f.firstName.errors.pattern">First Name must not contain whitespaces, special symbols and numbers</div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <label for="lastName">Last Name</label>
+                            <input formControlName="lastName" type="text" class="form-control" id="lastName" placeholder="Please enter a last name">
+                            <div *ngIf="f.lastName.errors && (f.lastName.dirty || f.lastName.touched)" class="alert alert-danger">
+                                <div *ngIf="f.lastName.errors.required">Last Name is required.</div>
+                                <div *ngIf="f.lastName.errors.minlength">Last Name must be atleast 2 letters</div>
+                                <div *ngIf="f.lastName.errors.maxlength">Last Name must not be longer than 128 letters</div>
+                                <div *ngIf="f.lastName.errors.pattern">Last Name must not contain whitespaces, special symbols and numbers</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-sm-6">
+                            <label for="password">Password</label>
+                            <input formControlName="password" type="password" class="form-control" id="password" placeholder="Please enter a password">
+                            <div *ngIf="f.password.errors && (f.password.dirty || f.password.touched)" class="alert alert-danger">
+                                <div *ngIf="f.password.errors.required">Password is required.</div>
+                                <div *ngIf="f.password.errors.pattern">Please use 10 or more characters with a mix of letters, numbers & symbols. Maximum available characters - 65.</div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <label for="confirmPassword">Confirm Password</label>
+                            <input formControlName="confirmPassword" type="password" class="form-control" id="confirmPassword" placeholder="Please confirm your password">
+                            <div *ngIf="f.confirmPassword.errors && (f.confirmPassword.touched || f.confirmPassword.dirty)" class="alert alert-danger">
+                                <div *ngIf="f.confirmPassword.errors.required">Password is required.</div>
+                                <div *ngIf="f.confirmPassword.errors.confirmedValidator">Password and Confirm Password must match.</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-sm-6">
+                            <label for="emailAddress">Email Address</label>
+                            <input formControlName="emailAddress" type="text" class="form-control" id="emailAddress" placeholder="Please enter an email address">
+                            <div *ngIf="f.emailAddress.errors && (f.emailAddress.dirty || f.emailAddress.touched)" class="alert alert-danger">
+                                <div *ngIf="f.emailAddress.errors.required">Email Address is required</div>
+                                <div *ngIf="f.emailAddress.errors.pattern">Please enter a valid email address. Example: "google@gmail.com"</div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <label for="phoneNumber">Phone Number</label>
+                            <input formControlName="phoneNumber" type="text" class="form-control" id="phoneNumber" placeholder="Please enter a phone number">
+                            <div *ngIf="(f.phoneNumber.touched || f.phoneNumber.dirty) && f.phoneNumber.errors" class="alert alert-danger">
+                                <div *ngIf="f.phoneNumber.errors.required">Phone Number is required.</div>
+                                <div *ngIf="f.phoneNumber.errors.pattern">Phone number must start with (+359) for example</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row" formGroupName="address">
+                        <div class="col-sm-3">
+                            <label for="country">Country</label>
+                            <select formControlName="country" id="country" type="text" class="form-control">
+                                <option value="" disable selected>Please select a country</option>
+                                <option *ngFor="let country of countryList" value="{{country.name}}">{{country.name}}</option>
+                            </select>
+                            <div *ngIf="address.country.errors && (address.country.touched || address.country.dirty)" class="alert alert-danger">
+                                <div *ngIf="address.country.errors.required">Country is required.</div>
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <label for="city">City</label>
+                            <input formControlName="city" id="city" placeholder="Please enter a city" type="text" class="form-control">
+                            <div *ngIf="address.city.errors && (address.city.touched || address.city.dirty)" class="alert alert-danger">
+                                <div *ngIf="address.city.errors.required">City is required.</div>
+                                <div *ngIf="address.city.errors.maxlength">City name must not be longer than 128 characters</div>
+                                <div *ngIf="address.city.errors.pattern">City name must not contain whitespaces and special symbols</div>
+                             </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <label for="inputWebsite">Street</label>
+                            <input formControlName="street" id="street" placeholder="Please enter a street" type="text" class="form-control">
+                            <div *ngIf="address.street.errors && (address.street.touched || address.street.dirty)" class="alert alert-danger">
+                                <div *ngIf="address.street.errors.required">Street is required.</div>
+                                <div *ngIf="address.street.errors.pattern">Street name must not contain whitespaces and special symbols</div>
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <label for="streetNumber">Street Number</label>
+                            <input formControlName="streetNumber" id="streetNumber" placeholder="Please enter a street number" type="text" class="form-control">
+                            <div *ngIf="address.streetNumber.errors && (address.streetNumber.touched || address.streetNumber.dirty)" class="alert alert-danger">
+                                <div *ngIf="address.streetNumber.errors.required">Street number is required.</div>
+                                <div *ngIf="address.streetNumber.errors.pattern">Street number must not contain whitespaces and special symbols</div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-sm-6">
+                                <label for="buildingNumber">Building Number</label>
+                                <input formControlName="buildingNumber" id="buildingNumber" placeholder="Enter a building number" type="text" class="form-control">
+                                <div *ngIf="address.buildingNumber.errors && (address.buildingNumber.touched || address.buildingNumber.dirty)" class="alert alert-danger">
+                                    <div *ngIf="address.buildingNumber.errors.maxlength">Building number must not be longer than 65 characters</div>
+                                    <div *ngIf="address.buildingNumber.errors.pattern">Building number must not contain whitespaces and special symbols</div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <label for="apartmentNumber"><b>Apartment Number</b></label>
+                                <input formControlName="apartmentNumber" id="apartmentNumber" placeholder="Enter an apartment number" type="text" class="form-control">
+                                <div *ngIf="address.apartmentNumber.errors && (address.apartmentNumber.touched || address.apartmentNumber.dirty)" class="alert alert-danger">
+                                    <div *ngIf="address.apartmentNumber.errors.maxlength">Apartment number must not be longer than 65 characters</div>
+                                    <div *ngIf="address.apartmentNumber.errors.pattern">Apartment number must not contain whitespaces and special symbols</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-sm-8">
+                                <label for="additionalInfo"><b>Additional Information</b></label>
+                                <textarea formControlName="additionalInfo" id="additionalInfo" placeholder="Enter additional information" type="text" class="form-control"></textarea>
+                                <div *ngIf="address.additionalInfo.errors && (address.additionalInfo.touched || address.additionalInfo.dirty)" class="alert alert-danger">
+                                    <div *ngIf="address.additionalInfo.errors.maxlength">Additional information must not be longer than 1028 characters</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary px-4 float-right" [disabled]="!registerForm.valid">Register</button>
+                </form>
+
+                <form *ngIf="role === 'administrator'" [formGroup]="registerLibrarianForm" (ngSubmit)="registerLibrarian()">
+                    <h1>Admin Registration Page</h1>
+                    <div class="form-group row">
+                        <div class="col-sm-6">
+                            <label for="firstName">First Name</label>
+                            <input formControlName="firstName" type="text" class="form-control" id="firstName" placeholder="Please enter a first name">
+                            <div *ngIf="librarian.firstName.errors && (librarian.firstName.dirty || librarian.firstName.touched)" class="alert alert-danger">
+                                <div *ngIf="librarian.firstName.errors.required">First Name is required.</div>
+                                <div *ngIf="librarian.firstName.errors.minlength">First Name must be atleast 2 letters</div>
+                                <div *ngIf="librarian.firstName.errors.maxlength">First Name must not be longer than 128 letters</div>
+                                <div *ngIf="librarian.firstName.errors.pattern">First Name must not contain whitespaces, special symbols and numbers</div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <label for="lastName">Last Name</label>
+                            <input formControlName="lastName" type="text" class="form-control" id="lastName" placeholder="Please enter a last name">
+                            <div *ngIf="librarian.lastName.errors && (librarian.lastName.dirty || librarian.lastName.touched)" class="alert alert-danger">
+                                <div *ngIf="librarian.lastName.errors.required">Last Name is required.</div>
+                                <div *ngIf="librarian.lastName.errors.minlength">Last Name must be atleast 2 letters</div>
+                                <div *ngIf="librarian.lastName.errors.maxlength">Last Name must not be longer than 128 letters</div>
+                                <div *ngIf="librarian.lastName.errors.pattern">Last Name must not contain whitespaces, special symbols and numbers</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-sm-6">
+                            <label for="password">Password</label>
+                            <input formControlName="password" type="password" class="form-control" id="password" placeholder="Please enter a password">
+                            <div *ngIf="librarian.password.errors && (librarian.password.dirty || librarian.password.touched)" class="alert alert-danger">
+                                <div *ngIf="librarian.password.errors.required">Password is required.</div>
+                                <div *ngIf="librarian.password.errors.pattern">Please use 10 or more characters with a mix of letters, numbers & symbols. Maximum available characters - 65.</div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <label for="confirmPassword">Confirm Password</label>
+                            <input formControlName="confirmPassword" type="password" class="form-control" id="confirmPassword" placeholder="Please confirm your password">
+                            <div *ngIf="(librarian.confirmPassword.touched || librarian.confirmPassword.dirty) && librarian.confirmPassword.invalid" class="alert alert-danger">
+                                <div *ngIf="librarian.confirmPassword.errors.required">Password is required.</div>
+                                <div *ngIf="librarian.confirmPassword.errors.confirmedValidator">Password and Confirm Password must be match.</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-sm-6">
+                            <label for="emailAddress">Email Address</label>
+                            <input formControlName="emailAddress" type="text" class="form-control" id="emailAddress" placeholder="Please enter an email address">
+                            <div *ngIf="librarian.emailAddress.errors && (librarian.emailAddress.dirty || librarian.emailAddress.touched)" class="alert alert-danger">
+                                <div *ngIf="librarian.emailAddress.errors.required">Email Address is required</div>
+                                <div *ngIf="librarian.emailAddress.errors.pattern">Please enter a valid email address. Example: "google@gmail.com"</div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <label for="phoneNumber">Phone Number</label>
+                            <input formControlName="phoneNumber" type="text" class="form-control" id="phoneNumber" placeholder="Please enter a phone number">
+                            <div *ngIf="(librarian.phoneNumber.touched || librarian.phoneNumber.dirty) && librarian.phoneNumber.errors" class="alert alert-danger">
+                                <div *ngIf="librarian.phoneNumber.errors.required">Phone Number is required.</div>
+                                <div *ngIf="librarian.phoneNumber.errors.pattern">Phone number must start with (+359) for example</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row" formGroupName="address">
+                        <div class="col-sm-3">
+                            <label for="country">Country</label>
+                            <select formControlName="country" id="country" type="text" class="form-control">
+                                <option value="" disable selected>Please select a country</option>
+                                <option *ngFor="let country of countryList" value="{{country.name}}">{{country.name}}</option>
+                            </select>
+                            <div *ngIf="librarianAddress.country.errors && (librarianAddress.country.touched || librarianAddress.country.dirty)" class="alert alert-danger">
+                                <div *ngIf="librarianAddress.country.errors.required">Country is required.</div>
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <label for="city">City</label>
+                            <input formControlName="city" id="city" placeholder="Please enter a city" type="text" class="form-control">
+                            <div *ngIf="librarianAddress.city.errors && (librarianAddress.city.touched || librarianAddress.city.dirty)" class="alert alert-danger">
+                                <div *ngIf="librarianAddress.city.errors.required">City is required.</div>
+                                <div *ngIf="librarianAddress.city.errors.maxlength">City name must not be longer than 128 characters</div>
+                                <div *ngIf="librarianAddress.city.errors.pattern">City name must not contain whitespaces and special symbols</div>
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <label for="inputWebsite">Street</label>
+                            <input formControlName="street" id="street" placeholder="Please enter a street" type="text" class="form-control">
+                            <div *ngIf="librarianAddress.street.errors && (librarianAddress.street.touched || librarianAddress.street.dirty)" class="alert alert-danger">
+                                <div *ngIf="librarianAddress.street.errors.required">Street is required.</div>
+                                <div *ngIf="librarianAddress.street.errors.pattern">Street name must not contain whitespaces and special symbols</div>
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <label for="streetNumber">Street Number</label>
+                            <input formControlName="streetNumber" id="streetNumber" placeholder="Please enter a street number" type="text" class="form-control">
+                            <div *ngIf="librarianAddress.streetNumber.errors && (librarianAddress.streetNumber.touched || librarianAddress.streetNumber.dirty)" class="alert alert-danger">
+                                <div *ngIf="librarianAddress.streetNumber.errors.required">Street number is required.</div>
+                                <div *ngIf="librarianAddress.streetNumber.errors.pattern">Street number must not contain whitespaces and special symbols</div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-sm-6">
+                                <label for="buildingNumber">Building Number</label>
+                                <input formControlName="buildingNumber" id="buildingNumber" placeholder="Enter a building number" type="text" class="form-control">
+                                <div *ngIf="librarianAddress.buildingNumber.errors && (librarianAddress.buildingNumber.touched || librarianAddress.buildingNumber.dirty)" class="alert alert-danger">
+                                    <div *ngIf="librarianAddress.buildingNumber.errors.maxlength">Building number must not be longer than 65 characters</div>
+                                    <div *ngIf="librarianAddress.buildingNumber.errors.pattern">Building number must not contain whitespaces and special symbols</div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <label for="apartmentNumber"><b>Apartment Number</b></label>
+                                <input formControlName="apartmentNumber" id="apartmentNumber" placeholder="Enter an apartment number" type="text" class="form-control">
+                                <div *ngIf="librarianAddress.apartmentNumber.errors && (librarianAddress.apartmentNumber.touched || librarianAddress.apartmentNumber.dirty)" class="alert alert-danger">
+                                    <div *ngIf="librarianAddress.apartmentNumber.errors.maxlength">Apartment number must not be longer than 65 characters</div>
+                                    <div *ngIf="librarianAddress.apartmentNumber.errors.pattern">Apartment number must not contain whitespaces and special symbols</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-sm-8">
+                                <label for="additionalInfo"><b>Additional Information</b></label>
+                                <textarea formControlName="additionalInfo" id="additionalInfo" placeholder="Enter additional information" type="text" class="form-control"></textarea>
+                                <div *ngIf="librarianAddress.additionalInfo.errors && (librarianAddress.additionalInfo.touched || librarianAddress.additionalInfo.dirty)" class="alert alert-danger">
+                                    <div *ngIf="librarianAddress.additionalInfo.errors.maxlength">Additional information must not be longer than 1028 characters</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary px-4 float-right" [disabled]="!registerLibrarianForm.valid">Register</button>
+                </form>
+            </div>
+        </div>
+    </div>

@@ -1,0 +1,118 @@
+<div class="row" *ngIf="userRole === 'librarian'">
+  <div class="form-check col-md-2">
+    <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1"
+      (change)="onSelect('all')" #all checked>
+    <label class="form-check-label" for="flexRadioDefault1">
+      All
+    </label>
+  </div>
+  <div class="form-check col-md-2">
+    <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2"
+      (change)="onSelect('pending')">
+    <label class="form-check-label" for="flexRadioDefault2">
+      Expiring
+    </label>
+  </div>
+  <div class="form-check col-md-2">
+    <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault3"
+      (change)="onSelect('user')" #user>
+    <label class="form-check-label" for="flexRadioDefault3">
+      User
+    </label>
+  </div>
+</div>
+
+<section *ngIf="bookLoans?.length > 0">   
+  <section *ngFor="let loan of bookLoans | paginate:{ 
+      itemsPerPage: loansPerPage, 
+      currentPage: page,
+      totalItems: totalItems
+    };" class="loan">
+    <table class="table table-striped table-product">
+      <tbody>
+        <tr *ngIf="userRole === 'librarian'">
+          <td width="390">Book Loan ID</td>
+          <td><a [routerLink]="[loan.bookLoanId]">{{loan.bookLoanId}}</a></td>
+        </tr>
+        <tr>
+          <td>From</td>
+          <td> {{loan.from | date:"dd.MM.yyyy"}}</td>
+        </tr>
+        <tr>
+          <td>To</td>
+          <td>{{loan.to | date:"dd.MM.yyyy"}}</td>
+        </tr>
+        <tr *ngIf="userRole === 'librarian'">
+          <td>Loaned To</td>
+          <td>{{loan.loanedTo?.firstName}} {{loan.loanedTo?.lastName}} - {{loan.loanedTo?.emailAddress}}</td>
+        </tr>
+        <tr>
+          <td>Loaned Book</td>
+          <td><a [routerLink]="['/', 'book', loan.book?.bookId, 'details']">{{loan.book?.title}}</a></td>
+        </tr>
+      </tbody>
+    </table>
+  
+    <section class="buttons text-center" *ngIf="userRole === 'librarian'">
+      <button class="btn btn-primary" (click)="onOpenProlongModal(loan.bookLoanId, prolong)">Prolong Loan</button>
+      <button class="btn btn-danger" (click)="onCompleteLoan(loan)">Complete Loan</button>
+    </section>
+  </section>
+  
+  <pagination-controls (pageChange)="onPageChange($event)"></pagination-controls>
+  
+  <ng-template #prolong let-prolongModal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">Prolong Loan</h4>
+      <button type="button" class="btn-close" aria-label="Close" (click)="prolongModal.dismiss()"></button>
+    </div>
+    <div class="modal-body">
+      <form #prolongForm="ngForm">
+        <div class="mb-3">
+          <label for="user">Prolong Loan To</label>
+          <div class="input-group">
+            <input id="prolongTo" class="form-control" placeholder="yyyy-mm-dd" name="prolongTo" type="date" ngbDatepicker
+              #prolongTo="ngbDatepicker" ngModel appDateValidator required>
+            <button class="btn btn-outline-secondary calendar" (click)="prolongTo.toggle()" type="button"></button>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-outline-dark" (click)="onProlong(prolongForm)">Prolong Loan</button>
+    </div>
+  </ng-template>
+</section>
+
+<section *ngIf="bookLoans?.length === 0">
+  <h3 class="text-center">No Active Book Loans</h3>
+</section>
+
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">User</h4>
+    <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss()"></button>
+  </div>
+  <div class="modal-body">
+    <form #modalForm="ngForm">
+      <div class="mb-3">
+        <label for="user">User</label>
+        <div class="input-group">
+          <input id="user" class="form-control search-input" placeholder="Email" name="user" type="text"
+            autocomplete="off" ngModel required #userInput>
+          <button class="btn btn-success search-button" type="button" (click)="onGetUsers(userInput, menu)">Search</button>
+        </div>
+        <div class="dropdown" >
+          <div id="myDropdown" class="dropdown-content" #menu>
+            <a *ngFor="let user of users" class="dropdown-item" (click)="onChosenUser(user, userInput, menu)">
+              {{user.emailAddress}}
+            </a>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="onGetByUser(modalForm)">Get Loans</button>
+  </div>
+</ng-template>

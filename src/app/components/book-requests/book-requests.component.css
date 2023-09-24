@@ -1,0 +1,25 @@
+.request-info:not(:last-child) {
+    margin: 3rem 0;
+    border-bottom: 1px solid gray;
+}
+
+.request-info-book-item {
+    margin-bottom: 1rem;
+}
+
+.request-book-details {
+    width: 50%;
+}
+
+.book-cover-img {
+    min-height: 300px;
+    max-height: 500px;
+}
+
+.buttons {
+    margin-bottom: 2rem;
+}
+
+.btn {
+    margin-right: 1rem;
+}

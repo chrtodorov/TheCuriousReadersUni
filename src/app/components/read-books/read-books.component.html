@@ -1,0 +1,52 @@
+<h3 class="text-center" *ngIf="books?.length <= 0">You haven't read any books</h3>
+
+<table class="table table-striped table-bordered table-sm row-border hover" *ngIf="books?.length > 0">
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>Genre</th>
+            <th>Description</th>
+            <th width="220px">Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let book of books | paginate:{ 
+        itemsPerPage: itemsPerPage, 
+        currentPage: page,
+        totalItems: totalItems
+      };">
+            <td>{{ book.title }}</td>
+            <td>{{ book.genre }}</td>
+            <td>{{ book.description }}</td>
+            <td class="w-25">
+                <div class="d-flex justify-content-evenly">
+                    <a [routerLink]="['/', 'book', book.bookId, 'details']" class="btn btn-info">Details</a>
+                    <a class="btn btn-primary" (click)="onOpenModal(content, book.bookId)">Add Comment</a>
+                </div>
+            </td>
+        </tr>
+        <pagination-controls (pageChange)="onPageChange($event)"></pagination-controls>
+    </tbody>
+</table>
+
+<ng-template #content let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Add New Comment</h4>
+        <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+    </div>
+    <div class="modal-body">
+        <form #modalForm="ngForm">
+            <div class="mb-3">
+                <label for="comment">Comment</label>
+                <div class="input-group">
+                    <textarea class="comment-area" name="comment" id="comment" rows="7" cols="200" ngModel required></textarea>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline-dark" (click)="onAddComment(modalForm)">
+            Publish Comment
+        </button>
+    </div>
+</ng-template>

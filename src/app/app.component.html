@@ -1,0 +1,72 @@
+<main class="flex-shrink-0">
+    <nav class="navbar navbar-expand-md navbar-dark bg-dark mb-4">
+      <div class="container-fluid">
+        <a class="navbar-brand" routerLink="/">The Curious Readers</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+          <ul class="navbar-nav me-auto mb-2 mb-md-0">
+            <li class="nav-item dropdown" *ngIf="role==='administrator'||role==='librarian'">
+              <div class="dropdown">
+                <button class="btn btn-secondary bg-transparent dropdown-toggle" type="button" id="dropdownMenuButton1"
+                  data-bs-toggle="dropdown" aria-expanded="false">
+                  Manage
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                    <li><a routerLink="publisher" class="dropdown-item">Publishers</a></li>
+                    <li><a routerLink="author" class="dropdown-item">Authors</a></li>
+                    <li><a routerLink="book/create" class="dropdown-item">Create Book</a></li>
+                    <li><a routerLink="account-approve" class="dropdown-item">Account Approve</a></li>
+                    <li><a routerLink="register" class="dropdown-item" *ngIf="role==='administrator'">Register Librarian</a></li>
+                </ul>
+              </div>
+            </li>
+            <li class="nav-item">
+              <a routerLink="books" class="nav-link">Books</a>
+            </li>
+            <li class="nav-item">
+              <a routerLink="book-requests" class="nav-link" *ngIf="role==='customer'||role==='librarian'">
+                Book Requests
+              </a>
+            </li>
+            <li class="nav-item">
+              <a routerLink="book-loans" class="nav-link" *ngIf="role==='customer'||role==='librarian'">
+                Book Loans
+              </a>
+            </li>
+            <li class="nav-item">
+              <a [routerLink]="['books', 'read']" class="nav-link" *ngIf="role==='customer'">
+                Read Books
+              </a>
+            </li>
+            <li class="nav-item">
+              <a [routerLink]="['comments', 'pending']" class="nav-link" *ngIf="role==='librarian'">
+                Pending Comments
+              </a>
+            </li>
+          </ul>
+          
+          <div class="nav navbar-nav navbar-right">
+            <li class="nav-item">
+              <a routerLink="login" class="nav-link" *ngIf="(user)===null">Login</a>
+            </li>
+            <li class="nav-item">
+              <a routerLink="register" class="nav-link" *ngIf="(user)===null">Register</a>
+            </li>
+            <li class="nav-item">
+              <a routerLink="profile" class="nav-link" *ngIf="role === 'customer' || role === 'librarian'">Profile</a>
+            </li>
+            <li class="nav-item">
+              <a routerLink="" class="nav-link" *ngIf="(user)!==null" (click)="logout()">Logout</a>
+            </li>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <div class="container mt-3">
+      <router-outlet></router-outlet>
+    </div>
+    
+</main>

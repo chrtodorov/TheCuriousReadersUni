@@ -1,0 +1,21 @@
+<nav class="navbar navbar-light bg-light row d-flex justify-content-center book-header">
+    <form class="row form-inline my-2 my-lg-0 col-md-8 d-flex justify-content-center" #bookHeaderForm="ngForm"
+        (ngSubmit)="onSubmit()">
+        <div class="col-md-8">
+            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="filter"
+                ngModel (ngModelChange)="onChange()">
+        </div>
+        <div class="col-md-2">
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+        </div>
+    </form>
+</nav>
+
+<ng-multiselect-dropdown 
+[settings]="dropdownSettings" 
+[data]="dropdownList" #dropdown 
+(onSelect)="onChange()"
+(onDeSelect)="onChange()"
+(onSelectAll)="onChange()"
+(onDeSelectAll)="onChange()">
+</ng-multiselect-dropdown>

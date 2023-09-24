@@ -1,0 +1,27 @@
+<div class="container">
+    <h1>Publishers List</h1>
+  
+    <input class="form-control mt-2 mb-2" type="text" [(ngModel)]="searchText"  (input)="onChange()" placeholder="Search" /> 
+    <table class="table table-striped table-bordered table-sm row-border hover" id="publisherstable">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th width="220px">Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let publisher of publishers | paginate: { 
+          itemsPerPage: publishersPerPage, 
+          currentPage: page, 
+          totalItems: totalItems }">
+          <td>{{ publisher.name }}</td>
+          <td class="w-25">
+            <a href="#" [routerLink]="['/publisher/', publisher.publisherId, 'details']" class="btn btn-info">Details</a>
+            <a href="#" [routerLink]="['/publisher/', publisher.publisherId, 'update']" class="btn btn-primary">Update</a>
+            <button type="button" (click)="deletePublisher(publisher.publisherId)" class="btn btn-danger">Delete</button>
+          </td>
+        </tr>
+        <pagination-controls (pageChange)="onPageChange($event)"></pagination-controls>
+      </tbody>
+    </table>
+ </div>

@@ -1,0 +1,22 @@
+<div class="container p-3">
+    <h1>Create New Publisher</h1>
+  
+    <button class="btn btn-primary mb-2" (click)="closeModal()">Close</button>
+        
+    <form [formGroup]="form" (ngSubmit)="submit()">
+  
+        <div class="form-group">
+            <label for="name">Name:</label>
+            <input 
+                formControlName="name"
+                id="name" 
+                type="text" 
+                class="form-control">
+                <div *ngIf="(f['name'].touched || f['name'].dirty) && f['name'].invalid" class="alert alert-danger">
+                    <div *ngIf="f['name'].errors && f['name'].errors['required']">This field is required.</div>
+                    <div *ngIf="f['name'].errors && f['name'].errors['maxlength']">Max length is exceeded.</div>
+                </div>
+        </div>  
+        <button class="btn btn-primary mt-2" type="submit" [disabled]="!form.valid">Submit</button>
+    </form>
+</div>

@@ -1,0 +1,29 @@
+<router-outlet></router-outlet>
+
+<body>
+
+<form *ngIf="(authService.currentUser$ | async) === null" #loginForm="ngForm" class="form-inline mt-2 mt-md-0" (ngSubmit)="login()" autocomplete="off">
+
+  <div class="imgcontainer">
+    <img src="https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png" alt="Avatar" class="avatar">
+  </div>
+
+  <div class="col-sm-6 mx-auto">
+    <div class="form-group">
+    <label for="uname"><b>Username</b></label>
+    <input [(ngModel)]="model.email"type="text" placeholder="Enter Username" class="uname" name="uname" required>
+
+    <label for="psw"><b>Password</b></label>
+    <input [(ngModel)]="model.password"type="password" placeholder="Enter Password" class="password" name="psw" required>
+        
+    <button type="submit" class="btn btn-primary px-4 float-right">Login</button>
+    </div>
+  </div>
+
+  <div class="col-sm-6 mx-auto">
+    <button onclick="location.href = ' '" type="button" class="cancelbtn">Cancel</button>
+    <span class="psw">Don't have an account? Click <a routerLink="/register">here</a> to register</span>
+  </div>
+</form>
+
+</body>

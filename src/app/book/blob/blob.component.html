@@ -1,0 +1,8 @@
+<h4>Upload Image</h4>
+<hr>
+<div class="d-block">
+    <input class="form-control" type="file" single (change)="handleFileInput($event)" accept="image/png, image/jpeg, image/jpg"/>
+    <img width="200" height="300" *ngIf="imageUrl" [src]="imageUrl" class="image mt-2">
+    <img width="200" height="300" *ngIf="imageUrl === undefined" [src]="currentCover" class="image mt-2" alt="Book cover">
+</div>
+<hr>

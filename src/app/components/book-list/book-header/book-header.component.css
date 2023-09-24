@@ -1,0 +1,11 @@
+.btn {
+    height: 100%;
+}
+
+.form-select option{
+    padding: 2rem;
+}
+
+.navbar {
+    margin-bottom: 1.5rem;
+}

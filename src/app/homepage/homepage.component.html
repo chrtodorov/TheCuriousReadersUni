@@ -1,0 +1,32 @@
+<div class="container" style="display: flex; justify-content: center;"> 
+<div class="card text-white bg-dark mb-3">
+  <div class="card-header">Welcome to The Curious Readers!</div>
+    <div class="card-body">
+      <p class="card-text">
+        The Curious Readers is an online library with over {{bookCount}} 
+        books spread across {{genreCount}} different genres representing a small fortune of reading material for our {{count}} readers out there!
+      </p>
+    </div>
+  </div>
+</div>
+
+<div class="container" >
+  <h2 class="text-center fw-bold">Newly added books</h2>
+  <div class="row">
+    <div class="col-xs-4 card p-2 mx-2 my-2" style="width: 15rem;" *ngFor="let book of books| paginate:{ 
+      itemsPerPage: 4, 
+      currentPage: p
+    };">
+      <a href="#" [routerLink]="['/book/', book.bookId, 'details']">
+        <img class="card-img-top" [src]="book.coverUrl" alt="Book Cover Image">
+      </a>
+      <div class="card-body">
+        <h5 class="card-title">{{book.title}}
+        <i class="bi bi-info-circle-fill" ngbPopover="{{ (book.description.length>180)? (book.description | slice:0:180)+'..':(book.description) }}"  
+          popoverTitle="Summary" triggers="mouseenter:mouseleave:click"></i></h5>
+        <p class="card-text fw-bold">{{book.genre}}</p>
+      </div>
+    </div>
+    <pagination-controls (pageChange)="p = $event" class="text-center"></pagination-controls>
+  </div>
+</div>

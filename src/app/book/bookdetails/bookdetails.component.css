@@ -1,0 +1,53 @@
+body{
+    background-color: #edf1f5;
+    margin-top:20px;
+}
+.card {
+    margin-bottom: 30px;
+}
+.card {
+    position:relative;
+    display: block;
+    min-width: 0;
+    word-wrap: break-word;
+    background-color: #fff;
+    background-clip: border-box;
+    border: 0 solid transparent;
+    border-radius: 0;
+}
+.card .card-subtitle {
+    font-weight: 300;
+    margin-bottom: 10px;
+    color: #8898aa;
+}
+.table-product.table-striped tbody tr:nth-of-type(odd) {
+    background-color: #f3f8fa!important
+}
+.table-product td{
+    border-top: 0px solid #dee2e6 !important;
+    color: #728299!important;
+    width: 455px;
+}
+
+.book-cont {
+    display: flex;
+}
+
+.book-desc {
+    margin: 3rem 0;
+}
+
+.comment-row {
+    margin-bottom: 2rem;
+}
+
+button  {
+    margin-right: 5px;
+    margin-bottom: 10px;
+}
+
+@media screen and (max-width: 1200px) {
+    .book-cont {
+        flex-direction: column;
+    }
+}

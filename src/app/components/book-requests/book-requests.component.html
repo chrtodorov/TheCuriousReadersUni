@@ -1,0 +1,91 @@
+<section class="requests" *ngIf="bookRequests?.data.length > 0">
+  <h3 class="text-center"><span *ngIf="userRole === 'customer'">My</span> Requests</h3>
+  <div *ngFor="let bookRequest of bookRequests?.data | paginate:{ 
+        itemsPerPage: requestsPerPage, 
+        currentPage: page,
+        totalItems: totalItems
+      };" class="request-info">
+    <div class="d-flex justify-content-between request-info-book-item">
+      <img class="book-cover-img" [src]="bookRequest.book.coverUrl" [alt]="bookRequest.book.title">
+      <div class="request-book-details">
+        <h5><span class="fw-bold">Title: </span>{{bookRequest.book.title}}</h5>
+        <h5><span class="fw-bold">Genre: </span>{{bookRequest.book.genre}}</h5>
+        <h5><span class="fw-bold">Description: </span>{{bookRequest.book.description}}</h5>
+      </div>
+    </div>
+
+    <table class="table table-striped table-product">
+      <tbody>
+        <tr *ngIf="userRole === 'librarian'">
+          <td width="390">RequestedBy</td>
+          <td>
+            {{bookRequest.requestedBy.firstName}} {{bookRequest.requestedBy.lastName}} -
+            {{bookRequest.requestedBy.emailAddress}}
+          </td>
+        </tr>
+        <tr>
+          <td width="390">Requested on</td>
+          <td>{{bookRequest.createdAt}}</td>
+        </tr>
+        <tr>
+          <td>Status</td>
+          <td>{{bookRequest.status}}</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <section class="buttons text-center" *ngIf="userRole === 'librarian'">
+      <button class="btn btn-success" (click)="onApprove(content, bookRequest.requestedBy.emailAddress)">Approve</button>
+      <button class="btn btn-danger" (click)="onReject(bookRequest.bookRequestId, bookRequest.requestedBy.emailAddress)">Reject</button>
+    </section>
+
+    <ng-template #content let-modal>
+      <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Make a Loan</h4>
+        <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+      </div>
+      <div class="modal-body">
+        <form #modalForm="ngForm">
+          <div class="mb-3">
+            <label for="from">From</label>
+            <div class="input-group">
+              <input id="from" class="form-control" placeholder="yyyy-mm-dd" name="from" type="date" ngbDatepicker
+                #from="ngbDatepicker" ngModel appDateValidator required>
+              <button class="btn btn-outline-secondary calendar" (click)="from.toggle()" type="button"></button>
+            </div>
+    
+            <label for="to">To</label>
+            <div class="input-group">
+              <input id="to" class="form-control" placeholder="yyyy-mm-dd" name="to" type="date" ngbDatepicker
+                #to="ngbDatepicker" ngModel appDateValidator required>
+              <button class="btn btn-outline-secondary calendar" (click)="to.toggle()" type="button"></button>
+            </div>
+    
+            <label for="customerId">Customer ID</label>
+            <div class="input-group">
+              <input id="customerId" class="form-control" name="customerId" type="text" disabled
+                [ngModel]="bookRequest.requestedById">
+            </div>
+    
+            <label for="bookCopyId">Book Copy ID</label>
+            <div class="input-group">
+              <input id="bookCopyId" class="form-control" name="bookCopyId" type="text" disabled
+                [ngModel]="bookRequest.bookCopyId">
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline-dark" (click)="onMakeLoan(modalForm)">Create Loan</button>
+      </div>
+    </ng-template>
+  </div>
+
+  <pagination-controls (pageChange)="onPageChange($event)"></pagination-controls>
+</section>
+
+<section class="no-requests" *ngIf="bookRequests?.data.length === 0">
+  <h3 class="text-center">There are no active requests</h3>
+</section>
+
+

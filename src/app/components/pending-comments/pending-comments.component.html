@@ -1,0 +1,40 @@
+<h3 class="text-center" *ngIf="comments?.data?.length <= 0">There are no comments for approval</h3>
+
+<div *ngIf="comments?.data?.length > 0">
+    <div class="mt-100 mb-100">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title">Pending Comments</h4>
+                    </div>
+                    <div class="comment-widgets m-b-20">
+                        <div class="d-flex justify-content-between align-items-center comment-item" *ngFor="let comment of comments?.data | paginate:{ 
+                        itemsPerPage: itemsPerPage, 
+                        currentPage: page,
+                        totalItems: totalItems
+                      };">
+                            <div class="d-flex flex-row comment-row">
+                                <div class="p-2"><span class="round"><img
+                                            src="https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg"
+                                            alt="user" width="50"></span></div>
+                                <div class="comment-text">
+                                    <h5>{{comment.user.firstName}} {{comment.user.lastName}}</h5>
+                                    <div class="comment-footer">
+                                        <p class="m-b-5 m-t-10">{{comment.content}}</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="buttons d-flex">
+                                <button class="btn btn-success" (click)="onApprove(comment.commentId)">Approve</button>
+                                <button class="btn btn-danger" (click)="onReject(comment.commentId)">Reject</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <pagination-controls (pageChange)="onPageChange($event)"></pagination-controls>
+</div>
